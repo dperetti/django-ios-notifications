@@ -63,9 +63,9 @@ class Migration(SchemaMigration):
         db.create_table('ios_notifications_device_users', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('device', models.ForeignKey(orm['ios_notifications.device'], null=False)),
-            (User._meta.module_name, self.gf('django.db.models.fields.related.ForeignKey')(to=User)),
+            (User._meta.model_name, self.gf('django.db.models.fields.related.ForeignKey')(to=User)),
         ))
-        db.create_unique('ios_notifications_device_users', ['device_id', '%s_id' % User._meta.module_name])
+        db.create_unique('ios_notifications_device_users', ['device_id', '%s_%s' % (User._meta.model_name, User._meta.pk.name)])
 
         # Adding model 'FeedbackService'
         db.create_table('ios_notifications_feedbackservice', (
@@ -120,8 +120,8 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        "%s.%s" % (User._meta.app_label, User._meta.module_name): {
-            'Meta': {'object_name': User._meta.module_name},
+        "%s.%s" % (User._meta.app_label, User._meta.model_name): {
+            'Meta': {'object_name': User._meta.model_name},
         },
         'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
