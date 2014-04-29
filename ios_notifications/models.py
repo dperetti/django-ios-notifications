@@ -184,6 +184,7 @@ class Notification(models.Model):
     message = models.CharField(max_length=200, blank=True, help_text='Alert message to display to the user. Leave empty if no alert should be displayed to the user.')
     badge = models.PositiveIntegerField(null=True, blank=True, help_text='New application icon badge number. Set to None if the badge number must not be changed.')
     sound = models.CharField(max_length=30, blank=True, help_text='Name of the sound to play. Leave empty if no sound should be played.')
+    content_available = models.BooleanField(default=False, help_text='Flag for iOS7 remote-notification background mode.')
     created_at = models.DateTimeField(auto_now_add=True)
     last_sent_at = models.DateTimeField(null=True, blank=True)
     custom_payload = models.CharField(max_length=240, blank=True, help_text='JSON representation of an object containing custom payload.')
@@ -237,6 +238,8 @@ class Notification(models.Model):
             aps['badge'] = self.badge
         if self.sound:
             aps['sound'] = self.sound
+        if self.content_available:
+            aps['content-available'] = 1
         message = {'aps': aps}
         extra = self.extra
         if extra is not None:
