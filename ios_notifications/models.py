@@ -262,6 +262,8 @@ class Device(models.Model):
     platform = models.CharField(max_length=30, blank=True, null=True)
     display = models.CharField(max_length=30, blank=True, null=True)
     os_version = models.CharField(max_length=20, blank=True, null=True)
+    name = models.CharField(max_length=200, blank=True, null=True)
+    model = models.CharField(max_length=200, blank=True, null=True)
 
     def push_notification(self, notification):
         """
